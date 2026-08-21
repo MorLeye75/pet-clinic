@@ -7,31 +7,53 @@
       <div class="row g-3 align-items-end">
         <!-- Champ Recherche -->
         <div class="col-12 col-md-5 col-lg-5">
-          <label class="form-label small fw-semibold text-muted mb-1">Rechercher un médecin</label>
+          <label class="form-label small fw-semibold text-muted mb-1" for="filter_specialite">Filtrer par spécialité</label>
           <div class="input-group">
             <span class="input-group-text bg-light border-end-0 text-muted ps-3"> 🔍 </span>
-            <input type="text" class="form-control bg-light border-start-0 ps-0 shadow-none" placeholder="Nom, prénom, spécialité..." />
+            <input
+              type="text"
+              class="form-control bg-light border-start-0 ps-0 shadow-none"
+              id="filter_specialite"
+              name="filterSpecialite"
+              #specialiteInput
+              placeholder="Ex : Généraliste, Chirurgien..."
+              [ngModel]="specialiteFilter()"
+              (change)="onSpecialiteFilterChange(specialiteInput.value)"
+            />
           </div>
         </div>
 
         <!-- Filtre par Clinique -->
         <div class="col-12 col-md-3 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1">Clinique</label>
-          <select class="form-select bg-light border-0 shadow-none">
-            <option selected value="">Toutes les cliniques</option>
-            <option value="1">Clinique Centrale</option>
-            <option value="2">Clinique Nord</option>
+          <label class="form-label small fw-semibold text-muted mb-1" for="filter_clinique">Clinique</label>
+          <select
+            class="form-select bg-light border-0 shadow-none"
+            id="filter_clinique"
+            name="filterClinique"
+            [ngModel]="cliniqueFilter()"
+            (ngModelChange)="onCliniqueFilterChange($event)"
+          >
+            <option [ngValue]="null">Toutes les cliniques</option>
+            @for (clinique of cliniquesForFilter(); track clinique.id) {
+            <option [ngValue]="clinique.id">{{ clinique.nom }}</option>
+            }
           </select>
         </div>
 
         <!-- Boutons d'action -->
         <div class="col-12 col-md-4 col-lg-4 d-flex gap-2">
-          <button type="button" class="btn btn-outline-secondary w-50 py-2 d-flex align-items-center justify-content-center gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary w-50 py-2 d-flex align-items-center justify-content-center gap-2"
+            (click)="resetFilters()"
+          >
             <i class="fa-solid fa-rotate-left"></i>
             <span>Réinitialiser</span>
           </button>
 
-          <button type="button" class="btn btn-primary w-50 fw-semibold py-2">Filtrer</button>
+          <button type="button" class="btn btn-primary w-50 fw-semibold py-2" (click)="onSpecialiteFilterChange(specialiteInput.value)">
+            Filtrer
+          </button>
         </div>
       </div>
     </div>

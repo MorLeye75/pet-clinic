@@ -129,6 +129,12 @@ export class Medecin implements OnInit {
     this.applyFilters();
   }
 
+  resetFilters(): void {
+    this.cliniqueFilter.set(null);
+    this.specialiteFilter.set('');
+    this.applyFilters();
+  }
+
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const page = params.get(PAGE_HEADER);
     this.page.set(+(page ?? 1));
